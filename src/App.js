@@ -1,56 +1,46 @@
-import React from 'react';
-import Course from './Course';
+import React, {useState, useEffect}  from 'react';
+import axios from 'axios';
+import CountriesName from './CountriesName';
+import CountriesDetails from './CountriesDetails';
 
-function App() {
-  const courses = [
-    {
-      name: 'Half Stack application development',
-      id: 1,
-      parts: [
-        {
-          name: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
-        {
-          name: 'Using props to pass data',
-          exercises: 7,
-          id: 2
-        },
-        {
-          name: 'State of a component',
-          exercises: 14,
-          id: 3
-        },
-        {
-          name: 'Redux',
-          exercises: 11,
-          id: 4
-        }
-      ]
-    }, 
-    {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          name: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          name: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
-    }
-  ]
+const App = () => {
+  //states for api and search-query-input
+  const [countries, setCountries] = useState([]);
+  const [searchCountry, setSearchCoutry] = useState('');
 
+  //search event handler
+  const onSearch =(event)=>{
+    setSearchCoutry(event.target.value)
+    //console.log(searchCountry)
+  }
+  
+  //data fetch with axios
+  useEffect(()=>{
+    axios.get('https://restcountries.com/v3.1/all')
+    .then(countrynames => setCountries(countrynames.data))
+    //console.log(countries)
+  }, [])
+
+  //filter function of the countries API data
+  const filteredCountries = countries.filter((country)=>
+  { return country.name.common.toLowerCase().includes(searchCountry.toLowerCase()) })
 
   return (
     <>
-      <Course courses={courses} />
+      <div>
+        <h2>Find Countries by name</h2>
+        <input type='search' placeholder='search country by name' onChange={onSearch} value={searchCountry}/>
+      </div>
+      
+      <div>
+        {/*******condition for display depending search input length******************************** */}
+        {
+            ((searchCountry).length < 9) ? <p><CountriesName countriesname={filteredCountries} search={searchCountry} /></p> : 
+            <div>
+              <CountriesDetails countries={filteredCountries}/>
+            </div>
+        }
+      </div>
     </>
   );
 }
