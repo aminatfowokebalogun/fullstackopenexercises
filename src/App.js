@@ -1,46 +1,63 @@
 import React, {useState, useEffect}  from 'react';
 import axios from 'axios';
-import CountriesName from './CountriesName';
-import CountriesDetails from './CountriesDetails';
+import ContactList from './ContactList';
+import Form from './Form';
+import SearchBar from './SearchBar';
+import contactsservices from './services/contactsinfo';
+
+
 
 const App = () => {
-  //states for api and search-query-input
-  const [countries, setCountries] = useState([]);
-  const [searchCountry, setSearchCoutry] = useState('');
-
-  //search event handler
-  const onSearch =(event)=>{
-    setSearchCoutry(event.target.value)
-    //console.log(searchCountry)
-  }
+  const [persons, setPersons] = useState([]);
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [search, setSearch] = useState('');
   
-  //data fetch with axios
-  useEffect(()=>{
-    axios.get('https://restcountries.com/v3.1/all')
-    .then(countrynames => setCountries(countrynames.data))
-    //console.log(countries)
-  }, [])
 
-  //filter function of the countries API data
-  const filteredCountries = countries.filter((country)=>
-  { return country.name.common.toLowerCase().includes(searchCountry.toLowerCase()) })
+  useEffect(()=>{
+      contactsservices.getAll()
+      .then(response => setPersons(response.data))
+  },[]);
+
+  //a new object that accepts the value of the contacts info inputted
+  const contactObject = {
+    name: newName,
+    number: newNumber
+  }
+
+    const onSubmit=(event)=>{
+      event.preventDefault()
+      //alert(contactObject.number);
+      contactsservices.createContact(contactObject)
+      .then(res=> res.data)
+      //onsubmit input values should be empty strings
+      setNewName('')
+      setNewNumber('')
+    }
+
+    const onSearch=(event)=>{
+      setSearch(event.target.value)
+      //console.log(search)
+    }
+
+    //condition for filtering
+   
+
+
 
   return (
     <>
       <div>
-        <h2>Find Countries by name</h2>
-        <input type='search' placeholder='search country by name' onChange={onSearch} value={searchCountry}/>
-      </div>
-      
-      <div>
-        {/*******condition for display depending search input length******************************** */}
-        {
-            ((searchCountry).length < 9) ? <p><CountriesName countriesname={filteredCountries} search={searchCountry} /></p> : 
-            <div>
-              <CountriesDetails countries={filteredCountries}/>
-            </div>
-        }
-      </div>
+        <h2>Phonebook</h2>
+
+        <SearchBar onSearch={onSearch} search={search}/>
+
+        <Form onSubmit={onSubmit} newName={newName} newNumber={newNumber} 
+              setNewName={setNewName} setNewNumber={setNewNumber}
+          />
+      <h2>Phone Numbers</h2>
+          <ContactList filteredNames={persons} />
+    </div>
     </>
   );
 }
