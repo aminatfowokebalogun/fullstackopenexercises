@@ -1,9 +1,7 @@
 import React from "react";
-import contactservices from './services/contactsinfo';
+
 
 const Form =({newName, newNumber,onSubmit,setNewName,setNewNumber})=>{
-
-
 
     return(
         <>

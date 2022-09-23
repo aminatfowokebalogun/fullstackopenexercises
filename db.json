@@ -1,11 +1,6 @@
 {
   "details": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -21,36 +16,9 @@
       "id": 4
     },
     {
-      "id": 5
-    },
-    {
-      "id": 6
-    },
-    {
-      "id": 7
-    },
-    {
-      "name": "n",
-      "number": "18183284982",
-      "id": 8
-    },
-    {
-      "name": "n",
-      "number": "18183284982",
-      "id": 9
-    },
-    {
-      "id": 10
-    },
-    {
       "name": "ami",
       "number": "086",
       "id": 11
-    },
-    {
-      "name": "taslim",
-      "number": "00000000",
-      "id": 12
     },
     {
       "name": "taslim",
@@ -61,6 +29,16 @@
       "name": "damola",
       "number": "0000",
       "id": 14
+    },
+    {
+      "name": "joshua",
+      "number": "0818328498",
+      "id": 15
+    },
+    {
+      "name": "aminat balogun",
+      "number": "08183284982",
+      "id": 16
     }
   ]
 }
