@@ -4,8 +4,7 @@ import Notification from "./Notification";
 
 
 const ContactList =({filteredNames})=>{
-    const [errorMessage, setErrorMessage] = useState(null);
-   // const [successful, setSuccessful] = useState('')
+    const [errorMessage, setErrorMessage] = useState('');
 
 //event handler with id and name paremter gotten from the button as an arguement, and add to the baseurl of the restapi
 const handleDelete =(id, name)=>{
@@ -15,19 +14,19 @@ const handleDelete =(id, name)=>{
     //conition for confirm dialog
     if(window.confirm(`Do you want to delete ${name}?`)){
         contactservices.deleteContact(id, todelete)
-        //error message
-        .catch(error => {
-            if(error === null){
-                alert('no error')
-            }
-        })
+        //catch error message and set it to the hook
+        .catch(error => {setErrorMessage(`${name} was already been deleted from the phonebook`)
+                        setTimeout(() => {setErrorMessage(null)}, 5000)}
+            )
     }
 }
 
     return(
         <>
-            {/******************array mapping**************** */}
+        <div>
             <Notification message={errorMessage} />
+        </div>
+            {/******************array mapping**************** */}
                 {
                     filteredNames?.map ((person, i)=>(
                     <React.Fragment key={i}>

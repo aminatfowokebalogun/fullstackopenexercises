@@ -10,9 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [search, setSearch] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-
-  
 //data fetching
   useEffect(()=>{
       contactsservices.getAll()
@@ -25,38 +24,33 @@ const App = () => {
     number: newNumber
   }
 
-  //contatc_new_name = persons.map((contact_name, i)=> contact_name.name)
-
     const onSubmit=(event)=>{
       event.preventDefault()
+      //condition for comparing new inputs to existing ones
+
       //alert(contactObject.number);
       contactsservices.createContact(contactObject)
       .then(res=> res.data)
-      //error
-  
-      //condition for comparing new inputs to existing ones
-      //console.log(newName, newNumber)
-      //if(newName.toLowerCase().includes(t.toString().toLowerCase())){console.log('true')}else{console.log('false')}
-
+      alert (`You just successfully added ${newName}, ${newNumber} to your phonebook`)
       //onsubmit input values should be empty strings
       setNewName('')
       setNewNumber('')
     }
 
-    const onSearch=(event)=>{
-      setSearch(event.target.value)
+    const onSearch=(event)=>{setSearch(event.target.value)
       //console.log(search)
     }
+
     //variable filtering
     const filteredNames = persons.filter((person,i)=>{
     return person.name.toLowerCase().includes(search.toLowerCase());
   });
 
-  //const t =()=>{
-    //filteredNames.map((persons,i)=>persons.name)
-    //console.log(persons.name)
-  //}
+  const compare = filteredNames.map((contact, i)=> {return contact.name})
+  const compareVar =()=>compare.includes(newName.toLowerCase())
+  
     
+  
   return (
     <>
       <div>

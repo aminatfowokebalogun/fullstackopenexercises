@@ -1,12 +1,14 @@
 import React from "react";
 
-const Notification=({message, successful})=>{
-
+const Notification=({message})=>{
+    if (message === null) {
+    return console.log('deleted')
+  }
 
     return(
         <>
             <h1>
-                {message}
+                {message === null ? 'deleted' : message} 
             </h1>
 
             
